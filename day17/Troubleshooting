@@ -1,0 +1,35 @@
+Snowflake Data Loading Error – Analysis and Resolution
+Error Type: Date Conversion Error
+File Name: powerbi_orders.csv
+Affected Column: ORDER_DATE
+Error Location: Row 1201
+1. Error Description
+While loading the powerbi_orders.csv file into Snowflake, the loading process failed because an invalid date value was found in the ORDER_DATE column.
+2. Root Cause
+The CSV file contains the value:
+not-a-date
+
+
+Snowflake expects a valid date format, such as 2026-05-10. Since the provided value is not a valid date, Snowflake cannot convert it into a DATE data type.
+3. Solution
+1. Open powerbi_orders.csv in Excel.
+2. Locate the invalid value in the ORDER_DATE column.
+3. Replace it with the correct date or leave it blank if unknown.
+4. Save the CSV file.
+5. Execute the COPY INTO command again.
+4. Alternative Solution
+Use Snowflake's TRY_TO_DATE() function to handle invalid date values.
+SELECT TRY_TO_DATE('not-a-date');
+
+
+Expected Output: NULL
+
+This function returns NULL instead of generating a date conversion error.
+5. Key Learning
+- TO_DATE() – Converts text into a date.
+- TRY_TO_DATE() – Handles invalid dates by returning NULL.
+- ON_ERROR = 'CONTINUE' – Continues loading while skipping erroneous records.
+6. Conclusion
+The error occurred due to an invalid date value in the source CSV file. Correcting the data or handling invalid dates using Snowflake conversion functions resolves this issue.
+
+Concept Learned: CSV Data Validation, Date Conversion, Error Handling, and Snowflake Data Loading.
